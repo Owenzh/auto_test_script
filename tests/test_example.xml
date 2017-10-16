@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<suite>
+     
+    <case id="TCE0012" name="Create Ftp resource" OPTKEY="CRTFPRICC">
+        <params>
+            <RSCNM>TFTP</RSCNM>
+            <RSCDSC>'create ftp test'</RSCDSC>
+            <USRID>xxxx</USRID>
+            <PASSWORD>xxxx</PASSWORD>
+            <ROOTDIR>'/home/xxxx'</ROOTDIR>
+            <RSCURI>xxxxx</RSCURI>
+        </params>
+        <execution_type>S</execution_type>
+        <expected_result>success</expected_result>
+    </case> 
+    
+     
+    <case id="TCE0013" name="Create S3 resource" OPTKEY="CRTS3RICC">
+        <params>
+            <RSCNM>TS3</RSCNM>
+            <RSCDSC>'create s3 test'</RSCDSC>
+            <KEYID>'/xxx/enc'</KEYID>
+            <SECRETKEY>'xxxxx'</SECRETKEY>
+            <BUCKET>'xxx'</BUCKET>
+            <RSCURI>'xxx.amazonaws.com'</RSCURI>
+        </params>
+        <execution_type>S</execution_type>
+        <expected_result>success</expected_result>
+    </case>
+    
+     
+    <case id="TCE0014" name="Create SL resource" OPTKEY="CRTSLRICC">
+        <params>
+            <RSCNM>TSL</RSCNM>
+            <RSCDSC>'create sl test'</RSCDSC>
+            <AUTHUSR>'xxxxx'</AUTHUSR>
+            <AUTHKEY>'xxxx'</AUTHKEY>
+            <CONTAINER>'xxxxx'</CONTAINER>
+            <RSCURI>'xxxxx'</RSCURI>
+        </params>
+        <execution_type>S</execution_type>
+        <expected_result>success</expected_result>
+    </case> 
+    
+     <case id="TCE0015" name="Change FTP resource" OPTKEY="CHGFPRICC">
+        <params>
+            <RSCNM>TFTP</RSCNM>
+            <RSCDSC>'change ftp test'</RSCDSC>
+            <USRID>xxxx</USRID>
+            <PASSWORD>xxxx</PASSWORD>
+            <ROOTDIR>'/home/xxxx'</ROOTDIR>
+            <RSCURI>xxxx</RSCURI>
+            <DIRNM>*NONE</DIRNM>
+        </params>
+        <execution_type>S</execution_type>
+        <expected_result>success</expected_result>
+    </case>    
+    <case id="TCE0016" name="Change S3 resource" OPTKEY="CHGS3RICC">
+        <params>
+            <RSCNM>TS3</RSCNM>
+            <RSCDSC>'change s3 test'</RSCDSC>
+            <KEYID>'/xxx/enc'</KEYID>
+            <SECRETKEY>'xxx'</SECRETKEY>
+            <BUCKET>'xxxx'</BUCKET>
+            <RSCURI>'xxx.amazonaws.com'</RSCURI>
+            <DIRNM>*NONE</DIRNM>
+        </params>
+        <execution_type>S</execution_type>
+        <expected_result>success</expected_result>
+    </case>
+    <case id="TCE0017" name="Change SL resource" OPTKEY="CHGSLRICC">
+        <params>
+            <RSCNM>TSL</RSCNM>
+            <RSCDSC>'change sl test'</RSCDSC>
+            <AUTHUSR>'xxxx'</AUTHUSR>
+            <AUTHKEY>'xxx'</AUTHKEY>
+            <CONTAINER>'xxx'</CONTAINER>
+            <RSCURI>'xxx'</RSCURI>
+        </params>
+        <execution_type>S</execution_type>
+        <expected_result>success</expected_result>
+    </case> 
+
+
+    <case id="TCE0031" name="Copy to clould test" OPTKEY="CPYTOCLD" TYPE="S3">
+        <params>
+            <RESOURCE>xxx</RESOURCE>
+            <ASYNC>*NO</ASYNC>
+            <LOCALFILE>'/home/xxxx/origin/word_file.docx'</LOCALFILE>
+            <CLOUDFILE>'xxx/enc/word_file.docx'</CLOUDFILE>
+        </params>
+        <execution_type>R</execution_type>
+        <expected_result>CPTENC</expected_result>
+    </case>
+    <case id="TCE0032" name="Copy from clould test" OPTKEY="CPYFRMCLD" TYPE="S3">
+        <params>
+            <RESOURCE>xxx</RESOURCE>
+            <ASYNC>*NO</ASYNC>
+            <CLOUDFILE>'xxx/enc/word_file.docx'</CLOUDFILE>
+            <LOCALFILE>'/home/xxxx/download/word_file.docx'</LOCALFILE>
+        </params>
+        <execution_type>R</execution_type>
+        <expected_result>CPFENC</expected_result>
+    </case>
+
+    <case id="TCE0033" name="Copy to clould test" OPTKEY="CPYTOCLD" TYPE="SL">
+        <params>
+            <RESOURCE>xxx</RESOURCE>
+            <ASYNC>*NO</ASYNC>
+            <LOCALFILE>'/home/xxxx/origin/ppt_file_3M.pptx'</LOCALFILE>
+            <CLOUDFILE>'xxx/ppt_file_3M.pptx'</CLOUDFILE>
+        </params>
+        <execution_type>R</execution_type>
+        <expected_result>CPTENC</expected_result>
+    </case>
+
+    <case id="TCE0034" name="Copy from clould test" OPTKEY="CPYFRMCLD" TYPE="SL">
+        <params>
+            <RESOURCE>xxx</RESOURCE>
+            <ASYNC>*NO</ASYNC>
+            <CLOUDFILE>'xxx/ppt_file_3M.pptx'</CLOUDFILE>
+            <LOCALFILE>'/home/xxxx/download/ppt_file_3M.pptx'</LOCALFILE>
+        </params>
+        <execution_type>R</execution_type>
+        <expected_result>CPFENC</expected_result>
+    </case> 
+
+
+     <case id="TCE0040" name="Delete FTP resource" OPTKEY="DLTRSCICC">
+        <params>
+            <RSCNM>TFTP</RSCNM>
+        </params>
+        <execution_type>S</execution_type>
+        <expected_result>success</expected_result>
+    </case> 
+    <case id="TCE0041" name="Delete S3 resource" OPTKEY="DLTRSCICC">
+        <params>
+            <RSCNM>TS3</RSCNM>
+        </params>
+        <execution_type>S</execution_type>
+        <expected_result>success</expected_result>
+    </case>
+    <case id="TCE0042" name="Delete SL resource" OPTKEY="DLTRSCICC">
+        <params>
+            <RSCNM>TSL</RSCNM>
+        </params>
+        <execution_type>S</execution_type>
+        <expected_result>success</expected_result>
+    </case>
+	
+
+</suite>
