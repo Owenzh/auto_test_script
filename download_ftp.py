@@ -8,24 +8,30 @@ from icc_utils import get_filename_from_path
 
 
 class DownloadFTP:
-    def __init__(self, local_file, cfg, prefix=''):
-        host = cfg.get('FTP', 'HOSTNAME')
-        user = cfg.get('FTP', 'USER')
-        pwd = cfg.get('FTP', 'PASSWORD')
-        download_dir = cfg.get('FTP', 'downloadpath')
+    def __init__(self, case_id, local_file, cfg, prefix='', default='DEFAULT'):
+        host = cfg.get(default, 'HOSTNAME')
+        user = cfg.get(default, 'USER')
+        pwd = cfg.get(default, 'PASSWORD')
+        download_dir = cfg.get('DEFAULT', 'tempdownloadpath')
         create_download_directory(download_dir)
         # '/home/xudong_test/origin/1Kfile.txt'
         local_file = remove_quotation(local_file)
         _f = get_filename_from_path(local_file)
+        # self.file_name = str(case_id + _f)
         self.file_name = _f
         ftp = ftplib.FTP(host)
         ftp.login(user, pwd)
         # print ftp.getwelcome()
-        cwd_path = local_file.replace(_f, "")
+        if (default == 'DEFAULT'):
+            cwd_path = local_file.replace(_f, "")
+        else:
+            # /home/xudong
+            root_dir = cfg.get(default, 'ROOTDIR')
+            cwd_path = root_dir + '/' + local_file.replace(_f, "")
         # print cwd_path
         ftp.cwd(cwd_path)
         self.ftp_obj = ftp
-        self.download_path = download_dir + prefix + self.file_name
+        self.download_path = download_dir + case_id + '-' + prefix + self.file_name
         pass
 
     def download(self):
@@ -36,4 +42,4 @@ class DownloadFTP:
             return {'download_file_path': self.download_path}
         else:
             return {'download_file_path': None, 'err': 'FTP download fails.'}
-    # def 
+    # def

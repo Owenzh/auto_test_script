@@ -7,13 +7,15 @@ from icc_utils import get_filename_from_path
 
 
 class DownloadS3:
-    def __init__(self, key, cfg):
+    def __init__(self, case_id, key, cfg):
         # xudongz/enc/notfound.txt
         key = remove_quotation(key)
-        self.file_name = get_filename_from_path(key)
-        self.DOWNLOAD_PATH_S3 = cfg.get('AWS', 'downloadpath') + self.file_name
-        self.S3_ORIGINAL_PATH = 's3://' + cfg.get('AWS', 'bucket') + '/' + key
-        create_download_directory(cfg.get('AWS', 'downloadpath'))
+        self.file_name = str(case_id + '-' + get_filename_from_path(key))
+        self.DOWNLOAD_PATH_S3 = cfg.get(
+            'DEFAULT', 'tempdownloadpath') + self.file_name
+        self.S3_ORIGINAL_PATH = 's3://' + \
+            cfg.get('DEFAULT', 'awsbucket') + '/' + key
+        create_download_directory(cfg.get('DEFAULT', 'tempdownloadpath'))
         pass
 
     def download(self):

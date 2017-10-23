@@ -2,6 +2,9 @@
 # -*- coding: UTF-8 -*-
 
 
+class DebugError(Exception):
+    pass
+    
 class CfgFileNotFoundError(Exception):
     pass
 
@@ -47,4 +50,7 @@ class DownloadFTPFileError(Exception):
 
 
 class GenerateMD5Error(Exception):
+    pass
+
+class GetFileListError(Exception):
     pass

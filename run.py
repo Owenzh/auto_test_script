@@ -9,18 +9,21 @@ from run_icc import RunICC
 from core_test_icc import TestICC
 from _ParametrizedTestCase import ParametrizedTestCase
 from HTMLTestRunner import HTMLTestRunner
+import traceback
+# from ICCError import DebugError
 
 
 if __name__ == '__main__':
 
     try:
-        project_version = 'v1.0.0'
+        project_version = 'v1.0.3'
         print '>>>ICC automation test project ' + project_version
         # read base cofig file, will raise some error if cfg file not well.
         core_config = InitConfig().run()
         cfg_file = core_config.cfg_file_info
         ctxInstance = RunICC(cfg_file.defaults())
         TestSuiteList = getTestSuite(core_config)
+        # raise DebugError('>>>Debuging...')
         suite = unittest.TestSuite()
         tests = []
         for tc in TestSuiteList:
@@ -30,12 +33,11 @@ if __name__ == '__main__':
             param_wrapper['cfg'] = cfg_file
             tests.append(ParametrizedTestCase.parametrize(
                 TestICC, param=param_wrapper))
-
         suite.addTests(tests)
-        report_file = core_config.cur_path + core_config.cur_sep + \
-            'reports' + core_config.cur_sep + 'ICCTestReport.html'
 
-        # print report_file
+        tsc = time.strftime('%Y%m%d%H%M')
+        report_file = core_config.cur_path + core_config.cur_sep + \
+            'reports' + core_config.cur_sep + 'ICCTestReport_' + tsc + '.html'
 
         with open(report_file, 'w') as f:
             runner = HTMLTestRunner(stream=f,
@@ -44,9 +46,13 @@ if __name__ == '__main__':
                                     verbosity=2
                                     )
             runner.run(suite)
-    except RuntimeError:
-        print '>>>[RuntimeError]'
-    finally:
-        print '>>>[Script done.]'
+
         time.sleep(2)
         os.startfile(report_file)
+    except:
+        print '>>>[RuntimeError]'
+        traceback.print_exc()
+        time.sleep(1)
+        raw_input('>>>[Please input enter keys to close window]')
+    finally:
+        print '>>>[Script done.]'

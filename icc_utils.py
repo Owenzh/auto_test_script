@@ -3,6 +3,8 @@ import hashlib
 import ftplib
 import re
 import shutil
+from ICCError import GetFileListError
+
 
 def convertCLI(cmd):
     # CPYTOCLD RESOURCE(XDAWSENC) ASYNC(*NO) LOCALFILE('/home/xudong_test/notfound.txt') CLOUDFILE('xudongz/enc/notfound.txt')
@@ -23,7 +25,6 @@ def remove_quotation(_str):
 
 
 def get_filename_from_path(_path):
-    # _path = remove_quotation(_path)
     _f = _path.split('/')
     _f.reverse()
     return _f[0]
@@ -57,14 +58,21 @@ def delete_directory(file_dir):
 
 
 def delete_ftp_directory(cfg):
-    host = cfg.get('FTP', 'HOSTNAME')
-    user = cfg.get('FTP', 'USER')
-    pwd = cfg.get('FTP', 'PASSWORD')
-    cwd_path = cfg.get('FTP', 'downloadhostpath')
+    host = cfg.get('DEFAULT', 'HOSTNAME')
+    user = cfg.get('DEFAULT', 'USER')
+    pwd = cfg.get('DEFAULT', 'PASSWORD')
+    cwd_path = cfg.get('DEFAULT', 'downloadpath')
     ftp = ftplib.FTP(host)
     ftp.login(user, pwd)
     file_obj = []
-    ftp.retrbinary('NLST %s' % cwd_path, file_obj.append)
+    # print cwd_path
+    try:
+        ftp.retrbinary('NLST %s' % cwd_path, file_obj.append)
+    except:
+        print '\n>>>[GetFileListError] Please check the paths: ' + cwd_path
+        raise GetFileListError(
+            '\n>>>Please check the paths:\n>>>' + cwd_path)
+    # ftp.retrbinary('NLST %s' % cwd_path, file_obj.append)
     # print file_obj
     if(len(file_obj) >= 1):
         file_list = file_obj[0].split('\r\n')
@@ -77,7 +85,4 @@ def delete_ftp_directory(cfg):
 
 def clearDirectories(config):
     delete_ftp_directory(config)
-
-    delete_directory(config.get('FTP', 'downloadpath'))
-    delete_directory(config.get('SLR', 'downloadpath'))
-    delete_directory(config.get('AWS', 'downloadpath'))
+    delete_directory(config.get('DEFAULT', 'tempdownloadpath'))

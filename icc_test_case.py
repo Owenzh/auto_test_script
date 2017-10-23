@@ -3,17 +3,9 @@
 
 
 class ICCTestCase:
-    def __init__(self, id, name, execution, expected, cloud_type):
+    def __init__(self, id, name, prev, targ, last):
         self.id = id
         self.name = name
-        self.execution = execution
-        self.expected = expected
-        self.command = ''
-        self.cloud_type = cloud_type
-
-    def parserCLI(self, opt, paramList):
-        com = str(opt)
-        for fun in paramList:
-            com += ' ' + str(fun)
-        self.command = com
-        return com
+        self.prev_steps = prev
+        self.targ_steps = targ
+        self.last_steps = last

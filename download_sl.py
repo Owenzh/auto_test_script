@@ -7,13 +7,14 @@ from icc_utils import get_filename_from_path
 
 
 class DownloadSL:
-    def __init__(self, file_path, cfg):
+    def __init__(self, case_id, file_path, cfg):
         file_path = remove_quotation(file_path)
-        self.file_name = get_filename_from_path(file_path)
-        self.connector = cfg.get('SLR', 'connector')
+        self.file_name = str(case_id + '-' + get_filename_from_path(file_path))
+        self.connector = cfg.get('DEFAULT', 'slrconnector')
         self.SL_ORIGINAL_PATH = file_path
-        self.DOWNLOAD_PATH_SL = cfg.get('SLR', 'downloadpath') + self.file_name
-        create_download_directory(cfg.get('SLR', 'downloadpath'))
+        self.DOWNLOAD_PATH_SL = cfg.get(
+            'DEFAULT', 'tempdownloadpath') + self.file_name
+        create_download_directory(cfg.get('DEFAULT', 'tempdownloadpath'))
         pass
 
     def download(self):
