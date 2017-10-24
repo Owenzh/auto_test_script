@@ -72,15 +72,12 @@ def delete_ftp_directory(cfg):
         print '\n>>>[GetFileListError] Please check the paths: ' + cwd_path
         raise GetFileListError(
             '\n>>>Please check the paths:\n>>>' + cwd_path)
-    # ftp.retrbinary('NLST %s' % cwd_path, file_obj.append)
-    # print file_obj
     if(len(file_obj) >= 1):
         file_list = file_obj[0].split('\r\n')
         # print file_list
         for fn in file_list:
             if(fn != ''):
                 ftp.delete(fn)
-                # print 'Delete file: ' + fn
 
 
 def clearDirectories(config):

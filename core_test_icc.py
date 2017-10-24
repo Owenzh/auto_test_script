@@ -17,8 +17,8 @@ class TestICC(ParametrizedTestCase):
             step = prev_steps_q[i]
             exec_result = ctx.execCLI(step.command)
             step_exec = {}
-            step_exec['name'] = 'Previous Step ' + str(i + 1)
-            step_exec['msg'] = str(exec_result)
+            step_exec['name'] = '>>>Previous Step ' + str(i + 1)
+            step_exec['msg'] = '\t>>>'+ str(step.command) + '\n\t>>>' + str(exec_result)
             exec_msg = exec_result.get('value')
             if(step.execution == 'S'):
                 step_exec['value'] = (exec_msg == step.expected)

@@ -54,3 +54,6 @@ class GenerateMD5Error(Exception):
 
 class GetFileListError(Exception):
     pass
+
+class ParserVariableError(Exception):
+    pass

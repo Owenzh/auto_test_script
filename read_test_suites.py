@@ -1,9 +1,11 @@
 import xml.etree.ElementTree as ET
 import ConfigParser
+import re
 from icc_test_case import ICCTestCase
 from icc_case_step import ICCCaseStep
 from ICCError import MissSpecificSectionError
 from ICCError import MissSpecificOptionError
+from ICCError import ParserVariableError
 
 
 def getTestSuite(cfg):
@@ -81,7 +83,8 @@ def _parserStep(cfg, caseinfo, step_list, step_type='normal'):
                     if(text == "?"):
                         text = _findDefaultValue(
                             cfg.cfg_file_info, opt, cloud_type, tag)
-                    paramList.append(tag + '(' + text + ')')
+                    paramList.append(
+                        tag + '(' + _parserVariable(cfg.cfg_file_info, text) + ')')
             elif(child.tag == 'execution_type'):
                 execution = child.text
             elif(child.tag == 'expected_result'):
@@ -95,3 +98,19 @@ def _parserStep(cfg, caseinfo, step_list, step_type='normal'):
         step_new_list.append(step_obj)
 
     return step_new_list
+
+
+def _parserVariable(cfg, txt):
+    pattern = r'(\{\w+\})+'
+    var_list = re.findall(pattern, txt)
+    if len(var_list) > 0:
+        for idx in range(len(var_list)):
+            _var = var_list[idx]
+            v = re.findall(r'\w+', _var)
+            try:
+                newVal = cfg.get('VARIABLE', v[0])
+            except ConfigParser.NoOptionError:
+                raise ParserVariableError(
+                    '\n>>>Parser variable error: Can not find given "{0}" variable'.format(v[0]))
+            txt = txt.replace(_var, newVal)
+    return txt

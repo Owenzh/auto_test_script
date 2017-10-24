@@ -16,7 +16,7 @@ import traceback
 if __name__ == '__main__':
 
     try:
-        project_version = 'v1.0.3'
+        project_version = 'v1.1.1'
         print '>>>ICC automation test project ' + project_version
         # read base cofig file, will raise some error if cfg file not well.
         core_config = InitConfig().run()
